@@ -1,13 +1,8 @@
 const apiKey = "vVNtbzKMBo7vpMQ6NiWAO89VHtwUw9njI2Z4LEAyLqAIwDjJuLMIDiy8";
+document.getElementById("load").addEventListener("click", loadImages);
 
-document
-  .getElementById("load")
-  .addEventListener("click", () => loadImages("cat"));
-document
-  .getElementById("load-secondary")
-  .addEventListener("click", () => loadImages("dog"));
-
-function loadImages(query) {
+function loadImages() {
+  const query = "cat";
   const url = `https://api.pexels.com/v1/search?query=${query}`;
 
   fetch(url, {
@@ -21,63 +16,68 @@ function loadImages(query) {
       imagesContainer.innerHTML = "";
 
       data.photos.forEach(photo => {
-        const col = document.createElement("div");
-        col.className = "col-md-4";
+        const colDiv = document.createElement("div");
+        colDiv.className = "col-md-4";
 
-        const card = document.createElement("div");
-        card.className = "card mb-4 shadow-sm";
+        const cardDiv = document.createElement("div");
+        cardDiv.className = "card mb-4 shadow-sm";
 
         const img = document.createElement("img");
         img.src = photo.src.medium;
-        img.className = "bd-placeholder-img card-img-top";
         img.alt = photo.alt;
+        img.className = "bd-placeholder-img card-img-top";
 
-        const cardBody = document.createElement("div");
-        cardBody.className = "card-body";
+        const cardBodyDiv = document.createElement("div");
+        cardBodyDiv.className = "card-body";
 
         const cardTitle = document.createElement("h5");
         cardTitle.className = "card-title";
-        cardTitle.textContent = photo.photographer;
+        cardTitle.textContent = "Lorem Ipsum";
 
         const cardText = document.createElement("p");
         cardText.className = "card-text";
-        cardText.textContent = photo.alt;
+        cardText.textContent =
+          "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.";
 
-        const divButtons = document.createElement("div");
-        divButtons.className =
+        const cardFooterDiv = document.createElement("div");
+        cardFooterDiv.className =
           "d-flex justify-content-between align-items-center";
 
-        const btnGroup = document.createElement("div");
-        btnGroup.className = "btn-group";
+        const btnGroupDiv = document.createElement("div");
+        btnGroupDiv.className = "btn-group";
 
-        const viewButton = document.createElement("button");
-        viewButton.type = "button";
-        viewButton.className = "btn btn-sm btn-outline-secondary";
-        viewButton.textContent = "View";
+        const viewBtn = document.createElement("button");
+        viewBtn.className = "btn btn-sm btn-outline-secondary";
+        viewBtn.textContent = "View";
 
-        const editButton = document.createElement("button");
-        editButton.type = "button";
-        editButton.className = "btn btn-sm btn-outline-secondary";
-        editButton.textContent = "Edit";
+        const hideBtn = document.createElement("button");
+        hideBtn.className = "btn btn-sm btn-outline-secondary hide-button";
+        hideBtn.textContent = "Hide";
 
-        btnGroup.appendChild(viewButton);
-        btnGroup.appendChild(editButton);
+        hideBtn.addEventListener("click", () => {
+          colDiv.style.display = "none";
+        });
 
-        divButtons.appendChild(btnGroup);
-        divButtons.appendChild(document.createElement("small")).className =
-          "text-muted";
-        divButtons.querySelector("small").textContent = "9 mins";
+        btnGroupDiv.appendChild(viewBtn);
+        btnGroupDiv.appendChild(hideBtn);
 
-        cardBody.appendChild(cardTitle);
-        cardBody.appendChild(cardText);
-        cardBody.appendChild(divButtons);
+        const imageId = document.createElement("small");
+        imageId.className = "text-muted";
+        imageId.textContent = photo.id;
 
-        card.appendChild(img);
-        card.appendChild(cardBody);
+        cardFooterDiv.appendChild(btnGroupDiv);
+        cardFooterDiv.appendChild(imageId);
 
-        col.appendChild(card);
+        cardBodyDiv.appendChild(cardTitle);
+        cardBodyDiv.appendChild(cardText);
+        cardBodyDiv.appendChild(cardFooterDiv);
 
-        imagesContainer.appendChild(col);
+        cardDiv.appendChild(img);
+        cardDiv.appendChild(cardBodyDiv);
+
+        colDiv.appendChild(cardDiv);
+
+        imagesContainer.appendChild(colDiv);
       });
     })
     .catch(error =>
