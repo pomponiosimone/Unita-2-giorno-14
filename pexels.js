@@ -1,7 +1,7 @@
 const apiKey = "vVNtbzKMBo7vpMQ6NiWAO89VHtwUw9njI2Z4LEAyLqAIwDjJuLMIDiy8";
-document.getElementById("load").addEventListener("click", loadImages);
+document.getElementById("load").addEventListener("click", modificaImg);
 
-function loadImages() {
+function modificaImg() {
   const query = "cat";
   const url = `https://api.pexels.com/v1/search?query=${query}`;
 
@@ -11,11 +11,11 @@ function loadImages() {
     },
   })
     .then(response => response.json())
-    .then(data => {
+    .then(app => {
       const imagesContainer = document.querySelector(".album .container .row");
       imagesContainer.innerHTML = "";
 
-      data.photos.forEach(photo => {
+      app.photos.forEach(photo => {
         const colDiv = document.createElement("div");
         colDiv.className = "col-md-4";
 
